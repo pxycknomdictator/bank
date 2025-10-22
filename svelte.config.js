@@ -10,6 +10,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$public: "./public",
+			$types: "./src/types",
 			$models: "./src/models"
 		}
 	}
