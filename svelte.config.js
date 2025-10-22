@@ -11,7 +11,8 @@ const config = {
 		alias: {
 			$public: "./public",
 			$types: "./src/types",
-			$models: "./src/models"
+			$models: "./src/models",
+			$db: "./src/db"
 		}
 	}
 };
