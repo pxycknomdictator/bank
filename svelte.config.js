@@ -9,7 +9,8 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		alias: {
-			$public: "./public"
+			$public: "./public",
+			$models: "./src/models"
 		}
 	}
 };
