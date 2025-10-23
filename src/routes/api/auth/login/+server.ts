@@ -34,11 +34,12 @@ export async function POST(event) {
 		expires: new Date(Date.now() + 1000 * 60 * 60 * 24)
 	});
 
+	const ip = event.getClientAddress();
 	const session = await fetchSessionInformation(event);
 	const userAgentParser = new UAParser(event.request.headers.get("user-agent")!);
 
 	await Session.create({
-		...(session ?? {}),
+		...(session ?? { ip }),
 		token: tokens.refresh,
 		userId: exists._id,
 		browser: userAgentParser.getBrowser().name || "unknown",
