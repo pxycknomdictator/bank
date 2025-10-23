@@ -1,14 +1,16 @@
+import { Session } from "$models";
+import { UAParser } from "ua-parser-js";
 import { databaseConnection } from "$db";
 import { error, json } from "@sveltejs/kit";
 import { NODE_ENV } from "$env/static/private";
 import type { TokenPayload, userBodyDTO } from "$types";
-import { verifyHash, UserService, createTokens } from "$services";
+import { verifyHash, UserService, createTokens, fetchSessionInformation } from "$services";
 
 const userService = new UserService();
 
-export async function POST({ request, cookies }) {
+export async function POST(event) {
 	await databaseConnection();
-	const form: userBodyDTO = await request.json();
+	const form: userBodyDTO = await event.request.json();
 
 	const exists = await userService.findEmail(form.email);
 	if (!exists) return error(400, { message: "Credentials Error" });
@@ -24,12 +26,23 @@ export async function POST({ request, cookies }) {
 
 	const tokens = createTokens(payload);
 
-	cookies.set("accessToken", tokens.access, {
+	event.cookies.set("accessToken", tokens.access, {
 		path: "/",
 		httpOnly: true,
 		secure: NODE_ENV === "production",
 		sameSite: NODE_ENV === "production" ? "strict" : "lax",
 		expires: new Date(Date.now() + 1000 * 60 * 60 * 24)
+	});
+
+	const session = await fetchSessionInformation(event);
+	const userAgentParser = new UAParser(event.request.headers.get("user-agent")!);
+
+	await Session.create({
+		...(session ?? {}),
+		token: tokens.refresh,
+		userId: exists._id,
+		browser: userAgentParser.getBrowser().name || "unknown",
+		OS: userAgentParser.getOS().name || "unknown"
 	});
 
 	return json({ message: "Sign in successfully", token: tokens.access });
