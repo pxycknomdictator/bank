@@ -39,6 +39,7 @@
 		"vite-plugin-devtools-json": "^1.0.0"
 	},
 	"dependencies": {
+		"argon2": "^0.44.0",
 		"mongoose": "^8.19.2"
 	}
 }
