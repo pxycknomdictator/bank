@@ -12,7 +12,8 @@ const config = {
 			$public: "./public",
 			$types: "./src/types",
 			$models: "./src/models",
-			$db: "./src/db"
+			$db: "./src/db",
+			$services: "./src/services"
 		}
 	}
 };
