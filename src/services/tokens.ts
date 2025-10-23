@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 import type { TokenPayload, TokenResponse } from "$types";
 import { JWT_ACCESS_TOKEN_SECRET_KEY, JWT_REFRESH_TOKEN_SECRET_KEY } from "$env/static/private";
 
@@ -15,4 +15,12 @@ function accessToken(_id: string) {
 
 function refreshToken(tokenPayload: TokenPayload) {
 	return jwt.sign(tokenPayload, JWT_REFRESH_TOKEN_SECRET_KEY, { expiresIn: "30d" });
+}
+
+export function verifyAccessToken(token: string): JwtPayload {
+	return jwt.verify(token, JWT_ACCESS_TOKEN_SECRET_KEY) as JwtPayload;
+}
+
+export function verifyRefreshToken(token: string): JwtPayload {
+	return jwt.verify(token, JWT_REFRESH_TOKEN_SECRET_KEY) as JwtPayload;
 }
