@@ -6,3 +6,8 @@ export interface createUserDTO {
 	password: string;
 	dob: Date;
 }
+
+export interface userBodyDTO {
+	email: string;
+	password: string;
+}
