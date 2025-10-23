@@ -28,7 +28,8 @@ export async function POST({ request, cookies }) {
 		path: "/",
 		httpOnly: true,
 		secure: NODE_ENV === "production",
-		sameSite: NODE_ENV === "production" ? "strict" : "lax"
+		sameSite: NODE_ENV === "production" ? "strict" : "lax",
+		expires: new Date(Date.now() + 1000 * 60 * 60 * 24)
 	});
 
 	return json({ message: "Sign in successfully", token: tokens.access });
