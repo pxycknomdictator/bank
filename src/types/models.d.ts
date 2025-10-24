@@ -21,3 +21,22 @@ export interface SessionInterface extends Document {
 	active: boolean;
 	expiresAt: Date;
 }
+
+export interface AccountInterface extends Document {
+	userId: ObjectId;
+	account_number: string;
+	account_holder_name: string;
+	iban: string;
+	account_type: "Savings" | "Current" | "Fixed Deposit";
+	branch_code: string;
+	branch_name: string;
+	balance: number;
+	currency: "PKR" | "USD" | "EUR";
+	account_status: "Active" | "Blocked" | "Dormant";
+	is_frozen: boolean;
+	last_transaction_date?: Date;
+	cnic: string;
+	zakat_deduction: boolean;
+	daily_limit: number;
+	monthly_limit: number;
+}
