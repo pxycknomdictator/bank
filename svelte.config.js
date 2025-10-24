@@ -13,7 +13,8 @@ const config = {
 			$types: "./src/types",
 			$models: "./src/models",
 			$db: "./src/db",
-			$services: "./src/services"
+			$services: "./src/services",
+			$utils: "./src/utils"
 		}
 	}
 };
